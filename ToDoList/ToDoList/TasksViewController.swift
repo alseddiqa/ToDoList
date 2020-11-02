@@ -43,13 +43,18 @@ class TasksViewController: UITableViewController {
         cell.taskTitleLabel.text = task.taskTitle
         
         let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm"
+        dateFormatterGet.dateFormat = "MMM d, h:mm a"
         
         if task.taskDueDate != nil {
             cell.taskDateLabel.text = "Due at " + dateFormatterGet.string(from: task.taskDueDate!)
         }
         else{
             cell.taskDateLabel.text = "No due date"
+        }
+        
+        if task.isCompleted {
+            let completionImage = UIImage(systemName: "checkmark.circle.fill")?.withTintColor(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1), renderingMode: .alwaysOriginal)
+            cell.taskCompletionImage.image = completionImage
         }
         
         return cell
@@ -83,18 +88,19 @@ class TasksViewController: UITableViewController {
         case "createTask":
             let taskDetailViewController
                 = segue.destination as! TaskDetailsViewController
-            taskDetailViewController.tasksStore = self.tasksStore
+//            taskDetailViewController.tasksStore = self.tasksStore
             taskDetailViewController.newTask = true
+            taskDetailViewController.delegate = self
         case "showTask":
-            
             //identify which row task was tapped
             if let row = tableView.indexPathForSelectedRow?.row {
-                let task = Task(title: "Life", notes: "not good")
-                task.taskDueDate = Date()
+                let task = tasksStore.tasks[row]
                 let taskDetailViewController
                     = segue.destination as! TaskDetailsViewController
                 taskDetailViewController.task = task
+                task.indexOfTask = row
                 taskDetailViewController.newTask = false
+                taskDetailViewController.delegate = self
             }
         default:
             preconditionFailure("Unexpected segue identifier.")
@@ -116,7 +122,44 @@ class TasksViewController: UITableViewController {
         }
     }
     
-   
+    override func tableView(_ tableView: UITableView,
+                            leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        
+        let completionAction = UIContextualAction(style: .normal, title: "Complete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            let task = self.tasksStore.tasks[indexPath.row]
+            self.tasksStore.removeTask(task)
+            task.isCompleted = true
+            self.tasksStore.tasks.append(task)
+            UIView.transition(with: tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
+            success(true)
+        })
+        completionAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        return UISwipeActionsConfiguration(actions: [completionAction])
+        
+    }
+    
+
+    func getRemainingTime(taskDate: Data) -> String{
+        let now = Date()
+        
+    }
+}
+
+extension TasksViewController: TaskDetailDelegate {
+    
+    func addTask(task: Task) {
+        tasksStore.addTaskToList(task: task)
+        tableView.insertRows(at: [[0,tasksStore.tasks.count-1]], with: .automatic)
+    }
+    
+    func updateTask(oldTask: Task, newTask: Task) {
+        tasksStore.updateTaskDetail(oldTask: oldTask, newTask: newTask)
+//        tableView.reloadData()
+        tableView.reloadRows(at: [[0,oldTask.indexOfTask]], with: .fade )
+    }
+    
+    
 }
 
 extension UITableView {

@@ -32,4 +32,10 @@ class TasksStore {
         tasks.insert(movedItem, at: toIndex)
     }
     
+    func updateTaskDetail(oldTask: Task, newTask: Task ) {
+        let indexOfOldTask = tasks.firstIndex(of: oldTask)
+        tasks[indexOfOldTask!] = newTask
+        
+    }
+    
 }
