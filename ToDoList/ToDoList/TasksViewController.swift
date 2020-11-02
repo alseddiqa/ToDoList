@@ -135,8 +135,6 @@ class TasksViewController: UITableViewController {
         
     }
     
-
-    
     /// A helper function that returns a custom string based on the remianing time for the task
     /// - Parameter taskDate: the date of the task
     /// - Returns: returns the due date string

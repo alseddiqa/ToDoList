@@ -12,8 +12,8 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     var task: Task!
     var newTask: Bool = true
     var delegate: TaskDetailDelegate!
-
-
+    
+    @IBOutlet var dateSwitch: UISwitch!
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var taskDatePicker: UIDatePicker!
     @IBOutlet var additionalNotesTextField: UITextField!
@@ -27,6 +27,7 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 taskDatePicker.isEnabled = false
+                dateSwitch.isOn = false
             }
             titleTextField.text = task.taskTitle
             additionalNotesTextField.text = task.taskAdditionalNotes
@@ -47,6 +48,9 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
             let oldTask = task
             task.taskTitle = titleTextField.text ?? ""
             task.taskAdditionalNotes = additionalNotesTextField.text ?? ""
+            if taskDatePicker.isEnabled == true {
+                task.taskDueDate = taskDatePicker.date
+            }
             delegate.updateTask(oldTask: oldTask!, newTask: task)
         }
     }
