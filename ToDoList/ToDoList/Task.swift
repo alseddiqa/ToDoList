@@ -19,12 +19,12 @@ class Task: Codable , Equatable{
     var taskTitle: String
     var taskAdditionalNotes: String
     var taskDueDate: Date?
-    var completed: Bool
+    var isCompleted: Bool
     
     init(title: String, notes: String) {
         taskTitle = title
         taskAdditionalNotes =  notes
-        completed = false
+        isCompleted = false
     }
     
     

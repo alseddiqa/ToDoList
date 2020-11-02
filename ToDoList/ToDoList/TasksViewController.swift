@@ -52,6 +52,11 @@ class TasksViewController: UITableViewController {
             cell.taskDateLabel.text = "No due date"
         }
         
+        if task.isCompleted {
+            let completionImage = UIImage(systemName: "checkmark.circle.fill")?.withTintColor(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1), renderingMode: .alwaysOriginal)
+            cell.taskCompletionImage.image = completionImage
+        }
+        
         return cell
         
     }
@@ -114,6 +119,23 @@ class TasksViewController: UITableViewController {
             // Enter editing mode
             setEditing(true, animated: true)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView,
+                            leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        
+        let completionAction = UIContextualAction(style: .normal, title: "Complete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            let task = self.tasksStore.tasks[indexPath.row]
+            self.tasksStore.removeTask(task)
+            task.isCompleted = true
+            self.tasksStore.tasks.append(task)
+            UIView.transition(with: tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
+            success(true)
+        })
+        completionAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        return UISwipeActionsConfiguration(actions: [completionAction])
+        
     }
     
    
