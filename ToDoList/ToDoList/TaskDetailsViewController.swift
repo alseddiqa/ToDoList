@@ -20,9 +20,14 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
 
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(true)
         if !newTask {
-            taskDatePicker.date = task.taskDueDate!
+            if task.taskDueDate != nil {
+                taskDatePicker.date = task.taskDueDate!
+            }
+            else {
+                taskDatePicker.isEnabled = false
+            }
             titleTextField.text = task.taskTitle
             additionalNotesTextField.text = task.taskAdditionalNotes
         }
@@ -60,18 +65,9 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
         }
         
         tasksStore.addTaskToList(task: task)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "createTask":
-            let tasksViewController
-                = segue.destination as! TasksViewController
-            tasksViewController.tasksStore = self.tasksStore
-        default:
-            preconditionFailure("Unexpected segue identifier.")
-        }
-    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
