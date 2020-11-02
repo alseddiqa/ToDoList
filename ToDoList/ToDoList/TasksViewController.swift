@@ -23,7 +23,6 @@ class TasksViewController: UITableViewController {
         // Do any additional setup after loading the view.
     }
 
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tasksStore.tasks.count == 0 {
             self.tableView.setEmptyMessage("No tasks added yet")
@@ -42,11 +41,8 @@ class TasksViewController: UITableViewController {
         let task = tasksStore.tasks[indexPath.row]
         cell.taskTitleLabel.text = task.taskTitle
         
-        let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "MMM d, h:mm a"
-        
         if task.taskDueDate != nil {
-            cell.taskDateLabel.text = "Due at " + dateFormatterGet.string(from: task.taskDueDate!)
+            cell.taskDateLabel.text = getRemainingTime(taskDate: task.taskDueDate!)
         }
         else{
             cell.taskDateLabel.text = "No due date"
@@ -139,10 +135,38 @@ class TasksViewController: UITableViewController {
         
     }
     
-
-    func getRemainingTime(taskDate: Data) -> String{
-        let now = Date()
+    /// A helper function that returns a custom string based on the remianing time for the task
+    /// - Parameter taskDate: the date of the task
+    /// - Returns: returns the due date string
+    func getRemainingTime(taskDate: Date) -> String{
+        let nowDate = Date()
+        let timeDiffrence = Calendar.current.dateComponents([.day,.hour , .minute, .second], from: taskDate, to: nowDate)
+        let hours = timeDiffrence.hour! * -1
+        let minutes = timeDiffrence.minute! * -1
+        //let seccond = timeDiffrence.second!
+        let days = timeDiffrence.day! * -1
         
+        var dueDate = ""
+//        if hours < 0 && minutes < 0 && seccond < 0{
+//            dueDate = "Past due :("
+//        }
+         if minutes == 0 {
+            dueDate = "Due NOW!"
+        }
+        else if hours == 0 && minutes > 0{
+            dueDate = "Due in about \(minutes) minutes"
+        }
+        else if days < 1 {
+            dueDate = "Due in \(hours ) hours and \(minutes ) minutes"
+        }
+        
+        else {
+            let dateFormatterGet = DateFormatter()
+            dateFormatterGet.dateFormat = "MMM d, h:mm a"
+            dueDate = "Due at " + dateFormatterGet.string(from: taskDate)
+        }
+        
+        return dueDate
     }
 }
 
@@ -151,6 +175,7 @@ extension TasksViewController: TaskDetailDelegate {
     func addTask(task: Task) {
         tasksStore.addTaskToList(task: task)
         tableView.insertRows(at: [[0,tasksStore.tasks.count-1]], with: .automatic)
+        //tableView.reloadData()
     }
     
     func updateTask(oldTask: Task, newTask: Task) {
