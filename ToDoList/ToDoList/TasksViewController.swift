@@ -139,7 +139,11 @@ class TasksViewController: UITableViewController {
         
     }
     
-   
+
+    func getRemainingTime(taskDate: Data) -> String{
+        let now = Date()
+        
+    }
 }
 
 extension TasksViewController: TaskDetailDelegate {
