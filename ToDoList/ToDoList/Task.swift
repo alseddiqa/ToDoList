@@ -7,7 +7,14 @@
 
 import Foundation
 
-class Task: Codable{
+class Task: Codable , Equatable{
+    
+    static func == (lhs: Task, rhs: Task) -> Bool {
+        return lhs.taskTitle == rhs.taskTitle
+            && lhs.taskAdditionalNotes == rhs.taskAdditionalNotes
+            && lhs.taskDueDate == rhs.taskDueDate
+    }
+    
     
     var taskTitle: String
     var taskAdditionalNotes: String

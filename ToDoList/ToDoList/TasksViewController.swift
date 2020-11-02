@@ -12,6 +12,11 @@ import UIKit
 class TasksViewController: UITableViewController {
     
     var tasksStore: TasksStore!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,15 +25,16 @@ class TasksViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return tasksStore.tasks.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
 
-        cell.taskTitleLabel.text = "task \(indexPath.row)"
-        cell.taskDateLabel.text = "date"
+        let task = tasksStore.tasks[indexPath.row]
+        cell.taskTitleLabel.text = task.taskTitle
+        cell.taskDateLabel.text = task.taskDueDate
         return cell
         
     }
@@ -38,6 +44,10 @@ class TasksViewController: UITableViewController {
         
         //Check segue type
         switch segue.identifier {
+        case "createTask":
+            let taskDetailViewController
+                = segue.destination as! TaskDetailsViewController
+            taskDetailViewController.tasksStore = self.tasksStore
         case "showTask":
             
             //identify which row task was tapped

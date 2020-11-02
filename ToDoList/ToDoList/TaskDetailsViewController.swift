@@ -7,12 +7,13 @@
 
 import UIKit
 
-class TaskDetailsViewController: UIViewController {
+class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     
     var task: Task!
+    var tasksStore: TasksStore!
     var newTask: Bool = true
 
-    @IBOutlet var titeTextField: UITextField!
+    @IBOutlet var titleTextField: UITextField!
     @IBOutlet var taskDatePicker: UIDatePicker!
     @IBOutlet var additionalNotesTextField: UITextField!
     
@@ -22,7 +23,7 @@ class TaskDetailsViewController: UIViewController {
         
         if !newTask {
             taskDatePicker.date = task.taskDueDate!
-            titeTextField.text = task.taskTitle
+            titleTextField.text = task.taskTitle
             additionalNotesTextField.text = task.taskAdditionalNotes
         }
         else {
@@ -45,6 +46,36 @@ class TaskDetailsViewController: UIViewController {
         else {
             taskDatePicker.isEnabled = false
         }
+    }
+    
+    
+    @IBAction func submitTask(_ sender: UIBarButtonItem) {
+        let title = titleTextField.text!
+        let notes = additionalNotesTextField.text!
+        let task = Task(title: title, notes: notes)
+
+        if taskDatePicker.isEnabled {
+            let date = taskDatePicker.date
+            task.taskDueDate = date
+        }
+        
+        tasksStore.addTaskToList(task: task)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "createTask":
+            let tasksViewController
+                = segue.destination as! TasksViewController
+            tasksViewController.tasksStore = self.tasksStore
+        default:
+            preconditionFailure("Unexpected segue identifier.")
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 }

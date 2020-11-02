@@ -63,7 +63,7 @@
                     <navigationItem key="navigationItem" title="Tasks List" id="iBr-c5-jq1">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="note.text.badge.plus" catalog="system" id="czq-TY-A64">
                             <connections>
-                                <segue destination="lll-mO-AlM" kind="show" id="SMM-zg-5lf"/>
+                                <segue destination="lll-mO-AlM" kind="show" identifier="createTask" id="SMM-zg-5lf"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -77,11 +77,11 @@
             <objects>
                 <viewController id="lll-mO-AlM" customClass="TaskDetailsViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t4q-Bx-IGM">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="QBr-1D-EL3">
-                                <rect key="frame" x="30" y="15" width="349" height="624"/>
+                                <rect key="frame" x="30" y="103" width="349" height="624"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="usC-cP-1Dx">
                                         <rect key="frame" x="0.0" y="0.0" width="340" height="21"/>
@@ -161,7 +161,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="n9b-Et-zK0">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="checkmark.seal" catalog="system" id="45k-94-tBa"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="checkmark.seal" catalog="system" id="45k-94-tBa">
+                            <connections>
+                                <action selector="submitTask:" destination="lll-mO-AlM" id="MSi-QJ-FuU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="additionalNotesTextField" destination="4Y6-q7-EJC" id="k7t-jG-6yP"/>
@@ -193,7 +197,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="kBl-0n-0pL"/>
+        <segue reference="SMM-zg-5lf"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="checkmark.seal" catalog="system" width="128" height="128"/>
