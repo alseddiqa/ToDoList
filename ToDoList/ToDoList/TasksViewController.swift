@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 class TasksViewController: UITableViewController {
+    
+    var tasksStore: TasksStore!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,27 @@ class TasksViewController: UITableViewController {
         cell.taskDateLabel.text = "date"
         return cell
         
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //Check segue type
+        switch segue.identifier {
+        case "showTask":
+            
+            //identify which row task was tapped
+            if let row = tableView.indexPathForSelectedRow?.row {
+                let task = Task(title: "Life", notes: "not good")
+                task.taskDueDate = Date()
+                let taskDetailViewController
+                    = segue.destination as! TaskDetailsViewController
+                taskDetailViewController.task = task
+                taskDetailViewController.newTask = false
+            }
+        default:
+            preconditionFailure("Unexpected segue identifier.")
+        }
     }
 
 }

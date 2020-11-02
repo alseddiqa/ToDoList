@@ -51,7 +51,7 @@
                                 <connections>
                                     <outlet property="taskDateLabel" destination="chA-D0-KpB" id="F5Z-2r-GcY"/>
                                     <outlet property="taskTitleLabel" destination="TCD-Sl-xGl" id="KoP-PJ-3gW"/>
-                                    <segue destination="lll-mO-AlM" kind="show" id="kBl-0n-0pL"/>
+                                    <segue destination="lll-mO-AlM" kind="presentation" identifier="showTask" id="kBl-0n-0pL"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -60,7 +60,13 @@
                             <outlet property="delegate" destination="4hX-ld-1QZ" id="9n6-dN-cRi"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Tasks List" id="iBr-c5-jq1"/>
+                    <navigationItem key="navigationItem" title="Tasks List" id="iBr-c5-jq1">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="note.text.badge.plus" catalog="system" id="czq-TY-A64">
+                            <connections>
+                                <segue destination="lll-mO-AlM" kind="show" id="SMM-zg-5lf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sud-Le-hvr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -71,11 +77,11 @@
             <objects>
                 <viewController id="lll-mO-AlM" customClass="TaskDetailsViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t4q-Bx-IGM">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="QBr-1D-EL3">
-                                <rect key="frame" x="30" y="103" width="349" height="624"/>
+                                <rect key="frame" x="30" y="15" width="349" height="624"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="usC-cP-1Dx">
                                         <rect key="frame" x="0.0" y="0.0" width="340" height="21"/>
@@ -87,7 +93,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XqO-rw-v3C">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="ToDo goal" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XqO-rw-v3C">
                                         <rect key="frame" x="0.0" y="42" width="341" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="341" id="kWy-1K-Yrb"/>
@@ -154,9 +160,13 @@
                             <constraint firstItem="IYo-PC-e3x" firstAttribute="bottom" secondItem="QBr-1D-EL3" secondAttribute="bottom" constant="220" id="wEb-Ca-Hwf"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="n9b-Et-zK0"/>
+                    <navigationItem key="navigationItem" id="n9b-Et-zK0">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="checkmark.seal" catalog="system" id="45k-94-tBa"/>
+                    </navigationItem>
                     <connections>
+                        <outlet property="additionalNotesTextField" destination="4Y6-q7-EJC" id="k7t-jG-6yP"/>
                         <outlet property="taskDatePicker" destination="9uJ-vZ-vSi" id="dKq-9o-N7F"/>
+                        <outlet property="titeTextField" destination="XqO-rw-v3C" id="7TP-48-itJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DrI-Am-7NC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -182,7 +192,12 @@
             <point key="canvasLocation" x="-1124.6376811594205" y="58.928571428571423"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="kBl-0n-0pL"/>
+    </inferredMetricsTieBreakers>
     <resources>
+        <image name="checkmark.seal" catalog="system" width="128" height="128"/>
+        <image name="note.text.badge.plus" catalog="system" width="128" height="108"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

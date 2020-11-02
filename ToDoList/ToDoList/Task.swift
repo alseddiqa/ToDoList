@@ -7,7 +7,18 @@
 
 import Foundation
 
-class Task {
+class Task: Codable{
+    
+    var taskTitle: String
+    var taskAdditionalNotes: String
+    var taskDueDate: Date?
+    var completed: Bool
+    
+    init(title: String, notes: String) {
+        taskTitle = title
+        taskAdditionalNotes =  notes
+        completed = false
+    }
     
     
 }
