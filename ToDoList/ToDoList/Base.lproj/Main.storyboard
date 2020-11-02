@@ -78,16 +78,20 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="DTX-8J-R1r">
                                 <rect key="frame" x="20" y="7" width="92" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Edit"/>
+                                <state key="normal" title="Edit">
+                                    <color key="titleColor" red="0.28627450980392155" green="0.32941176470588235" blue="0.39215686274509803" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="toggleEditing:" destination="4hX-ld-1QZ" eventType="touchUpInside" id="GB4-pa-cdP"/>
                                 </connections>
                             </button>
+                            <color key="tintColor" red="0.28627450980392155" green="0.32941176470588235" blue="0.39215686274509803" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="toggleEditing:" destination="4hX-ld-1QZ" id="5zx-r5-VW5"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="note.text.badge.plus" catalog="system" id="czq-TY-A64">
+                            <color key="tintColor" red="0.28627450980392155" green="0.32941176470588235" blue="0.39215686274509803" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="lll-mO-AlM" kind="show" identifier="createTask" id="SMM-zg-5lf"/>
                             </connections>
@@ -107,7 +111,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="QBr-1D-EL3">
-                                <rect key="frame" x="30" y="103" width="349" height="539"/>
+                                <rect key="frame" x="30" y="103" width="349" height="404.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="usC-cP-1Dx">
                                         <rect key="frame" x="0.0" y="0.0" width="340" height="21"/>
@@ -139,14 +143,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="9uJ-vZ-vSi">
-                                        <rect key="frame" x="0.0" y="139" width="341" height="131"/>
+                                        <rect key="frame" x="0.0" y="139" width="341" height="124"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="124" id="JNV-eF-NTR"/>
                                             <constraint firstAttribute="width" constant="341" id="iNb-gk-ghJ"/>
                                         </constraints>
                                     </datePicker>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tvI-9H-xEg">
-                                        <rect key="frame" x="0.0" y="291" width="49" height="31"/>
+                                        <rect key="frame" x="0.0" y="284" width="49" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="bRE-rf-XaF"/>
                                             <constraint firstAttribute="width" constant="47" id="m6G-wi-EGq"/>
@@ -156,7 +160,7 @@
                                         </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Additional Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgJ-J0-QaW">
-                                        <rect key="frame" x="0.0" y="343" width="341" height="21"/>
+                                        <rect key="frame" x="0.0" y="336" width="341" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="sdH-gy-ni9"/>
                                             <constraint firstAttribute="width" constant="341" id="ziP-CC-2Kh"/>
@@ -166,7 +170,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Y6-q7-EJC">
-                                        <rect key="frame" x="0.0" y="385" width="341" height="154"/>
+                                        <rect key="frame" x="0.0" y="378" width="341" height="26.5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="154" id="GyT-rO-W4f"/>
                                             <constraint firstAttribute="width" constant="341" id="ffN-1N-7jB"/>
@@ -179,12 +183,16 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="IYo-PC-e3x"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="IYo-PC-e3x" firstAttribute="trailing" secondItem="QBr-1D-EL3" secondAttribute="trailing" constant="35" id="9eY-wW-1cL"/>
                             <constraint firstItem="QBr-1D-EL3" firstAttribute="top" secondItem="IYo-PC-e3x" secondAttribute="top" constant="15" id="EeK-ud-ASG"/>
                             <constraint firstItem="QBr-1D-EL3" firstAttribute="leading" secondItem="IYo-PC-e3x" secondAttribute="leading" constant="30" id="YmU-j6-OU3"/>
                             <constraint firstItem="IYo-PC-e3x" firstAttribute="bottom" secondItem="QBr-1D-EL3" secondAttribute="bottom" constant="220" id="wEb-Ca-Hwf"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="OoV-ni-b6S" appends="YES" id="73I-2a-iqb"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="n9b-Et-zK0">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="checkmark.seal" catalog="system" id="45k-94-tBa">
@@ -200,6 +208,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DrI-Am-7NC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="OoV-ni-b6S">
+                    <connections>
+                        <action selector="backgroundTapped:" destination="lll-mO-AlM" id="8fE-3d-JYM"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="624.63768115942037" y="58.928571428571423"/>
         </scene>

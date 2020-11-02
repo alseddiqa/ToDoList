@@ -43,7 +43,7 @@ class TasksViewController: UITableViewController {
         cell.taskTitleLabel.text = task.taskTitle
         
         let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm"
+        dateFormatterGet.dateFormat = "MMM d, h:mm a"
         
         if task.taskDueDate != nil {
             cell.taskDateLabel.text = "Due at " + dateFormatterGet.string(from: task.taskDueDate!)
@@ -88,18 +88,19 @@ class TasksViewController: UITableViewController {
         case "createTask":
             let taskDetailViewController
                 = segue.destination as! TaskDetailsViewController
-            taskDetailViewController.tasksStore = self.tasksStore
+//            taskDetailViewController.tasksStore = self.tasksStore
             taskDetailViewController.newTask = true
+            taskDetailViewController.delegate = self
         case "showTask":
-            
             //identify which row task was tapped
             if let row = tableView.indexPathForSelectedRow?.row {
-                let task = Task(title: "Life", notes: "not good")
-                task.taskDueDate = Date()
+                let task = tasksStore.tasks[row]
                 let taskDetailViewController
                     = segue.destination as! TaskDetailsViewController
                 taskDetailViewController.task = task
+                task.indexOfTask = row
                 taskDetailViewController.newTask = false
+                taskDetailViewController.delegate = self
             }
         default:
             preconditionFailure("Unexpected segue identifier.")
@@ -139,6 +140,22 @@ class TasksViewController: UITableViewController {
     }
     
    
+}
+
+extension TasksViewController: TaskDetailDelegate {
+    
+    func addTask(task: Task) {
+        tasksStore.addTaskToList(task: task)
+        tableView.insertRows(at: [[0,tasksStore.tasks.count-1]], with: .automatic)
+    }
+    
+    func updateTask(oldTask: Task, newTask: Task) {
+        tasksStore.updateTaskDetail(oldTask: oldTask, newTask: newTask)
+//        tableView.reloadData()
+        tableView.reloadRows(at: [[0,oldTask.indexOfTask]], with: .fade )
+    }
+    
+    
 }
 
 extension UITableView {

@@ -20,6 +20,7 @@ class Task: Codable , Equatable{
     var taskAdditionalNotes: String
     var taskDueDate: Date?
     var isCompleted: Bool
+    var indexOfTask: Int = 0
     
     init(title: String, notes: String) {
         taskTitle = title

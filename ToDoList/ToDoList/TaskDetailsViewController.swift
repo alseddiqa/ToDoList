@@ -10,14 +10,14 @@ import UIKit
 class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     
     var task: Task!
-    var tasksStore: TasksStore!
     var newTask: Bool = true
+    var delegate: TaskDetailDelegate!
+
 
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var taskDatePicker: UIDatePicker!
     @IBOutlet var additionalNotesTextField: UITextField!
     
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -36,6 +36,35 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
         }
         
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        view.endEditing(true)
+        
+        //Saving changes and edits to the item's information
+        if !newTask {
+            let oldTask = task
+            task.taskTitle = titleTextField.text ?? ""
+            task.taskAdditionalNotes = additionalNotesTextField.text ?? ""
+            delegate.updateTask(oldTask: oldTask!, newTask: task)
+        }
+    }
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//
+//        view.endEditing(true)
+//
+//        //Saving changes and edits to the item's information
+//        if !newTask {
+//            let oldTask = task
+//            task.taskTitle = titleTextField.text ?? ""
+//            task.taskAdditionalNotes = additionalNotesTextField.text ?? ""
+//            delegate.updateTask(oldTask: oldTask!, newTask: task)
+//        }
+//    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +93,7 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
             task.taskDueDate = date
         }
         
-        tasksStore.addTaskToList(task: task)
+        delegate.addTask(task: task)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -72,6 +101,11 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer){
+        
+        view.endEditing(true)
     }
     
 }
