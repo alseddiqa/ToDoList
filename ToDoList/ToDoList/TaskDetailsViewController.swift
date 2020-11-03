@@ -20,7 +20,7 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(false)
         if !newTask {
             if task.taskDueDate != nil {
                 taskDatePicker.date = task.taskDueDate!
@@ -39,8 +39,7 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
+        super.viewDidDisappear(animated)
         view.endEditing(true)
         
         //Saving changes and edits to the task's information
