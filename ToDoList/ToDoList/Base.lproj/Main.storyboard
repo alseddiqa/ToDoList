@@ -78,7 +78,7 @@
                                 <rect key="frame" x="20" y="7" width="92" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Edit">
-                                    <color key="titleColor" red="0.28627450980392155" green="0.32941176470588235" blue="0.39215686274509803" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.062745098040000002" green="0.2156862745" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="toggleEditing:" destination="4hX-ld-1QZ" eventType="touchUpInside" id="GB4-pa-cdP"/>
@@ -90,7 +90,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="note.text.badge.plus" catalog="system" id="czq-TY-A64">
-                            <color key="tintColor" red="0.28627450980392155" green="0.32941176470588235" blue="0.39215686274509803" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" red="0.062745098040000002" green="0.2156862745" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <segue destination="lll-mO-AlM" kind="show" identifier="createTask" id="SMM-zg-5lf"/>
                             </connections>

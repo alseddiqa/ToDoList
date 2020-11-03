@@ -21,6 +21,7 @@ class Task: Codable , Equatable{
     var taskDueDate: Date?
     var isCompleted: Bool
     var indexOfTask: Int = 0
+    var taskNotificationId = ""
     
     init(title: String, notes: String) {
         taskTitle = title

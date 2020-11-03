@@ -5,9 +5,9 @@
 //  Created by Abdullah Alseddiq on 11/2/20.
 //
 
-import Foundation
 
 import UIKit
+import UserNotifications
 
 class TasksViewController: UITableViewController {
     
@@ -43,10 +43,17 @@ class TasksViewController: UITableViewController {
         cell.taskTitleLabel.text = task.taskTitle
         
         if task.taskDueDate != nil {
-            cell.taskDateLabel.text = getRemainingTime(taskDate: task.taskDueDate!)
+            cell.taskDateLabel.text = getRemainingTime(task: task)
         }
         else{
             cell.taskDateLabel.text = "No due date"
+        }
+        
+        cell.taskCompletionImage.image = UIImage(systemName: "target")
+        
+        if task.taskNotificationId.count != 0 {
+            let notificationImage = UIImage(systemName: "bell.circle")?.withTintColor(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1), renderingMode: .alwaysOriginal)
+            cell.taskCompletionImage.image = notificationImage
         }
         
         if task.isCompleted {
@@ -134,7 +141,7 @@ class TasksViewController: UITableViewController {
                             leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
         
-        let completionAction = UIContextualAction(style: .normal, title: "Complete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let completionAction = UIContextualAction(style: .normal, title: "", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             let task = self.tasksStore.tasks[indexPath.row]
             self.tasksStore.removeTask(task)
             task.isCompleted = true
@@ -142,20 +149,42 @@ class TasksViewController: UITableViewController {
             UIView.transition(with: tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
             success(true)
         })
+        completionAction.image = UIImage(systemName: "checkmark")
         completionAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-        return UISwipeActionsConfiguration(actions: [completionAction])
+        
+        let notification = UIContextualAction(style: .normal, title: "", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            let task = self.tasksStore.tasks[indexPath.row]
+            if task.taskNotificationId.count != 0 {
+                self.removeRegisteredNotification(forTask: task)
+                let temp = task
+                temp.taskNotificationId = ""
+                self.updateTask(oldTask: task, newTask: temp)
+            }else {
+                self.registerTaskNotification(task: task)
+            }
+            UIView.transition(with: tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
+            success(true)
+        })
+        notification.backgroundColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+        notification.image = UIImage(systemName: "bell.circle")
+        return UISwipeActionsConfiguration(actions: [completionAction , notification])
         
     }
     
     /// A helper function that returns a custom string based on the remianing time for the task
     /// - Parameter taskDate: the date of the task
     /// - Returns: returns the due date string
-    func getRemainingTime(taskDate: Date) -> String{
+    func getRemainingTime(task: Task) -> String{
+        
+        if task.isCompleted {
+            return "Task Achieved!"
+        }
+        let taskDate = task.taskDueDate
         let nowDate = Date()
-        let timeDiffrence = Calendar.current.dateComponents([.day,.hour , .minute, .second], from: taskDate, to: nowDate)
+        let timeDiffrence = Calendar.current.dateComponents([.day,.hour , .minute, .second], from: taskDate!, to: nowDate)
         let hours = timeDiffrence.hour! * -1
         let minutes = timeDiffrence.minute! * -1
-        let seccond = taskDate.timeIntervalSince(nowDate)
+        let seccond = taskDate!.timeIntervalSince(nowDate)
         let days = timeDiffrence.day! * -1
         
         var dueDate = ""
@@ -175,7 +204,7 @@ class TasksViewController: UITableViewController {
         else {
             let dateFormatterGet = DateFormatter()
             dateFormatterGet.dateFormat = "MMM d, h:mm a"
-            dueDate = "Due at " + dateFormatterGet.string(from: taskDate)
+            dueDate = "Due at " + dateFormatterGet.string(from: taskDate!)
         }
         
         return dueDate
@@ -185,6 +214,46 @@ class TasksViewController: UITableViewController {
         tasksStore.removeTask(task)
         // Also remove that row from the table view with an animation
         tableView.deleteRows(at: [indexPath], with: .automatic)
+        
+        removeRegisteredNotification(forTask: task)
+        
+    }
+    
+    func registerTaskNotification(task: Task) {
+        
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.requestAuthorization(options: [.alert, .sound])
+        { (granted, Error) in}
+        
+        let content = UNMutableNotificationContent()
+        content.title = "One Task is due now"
+        content.body = task.taskTitle
+        
+        let date = task.taskDueDate
+        let dateComponents = Calendar.current.dateComponents([.year, .hour , .minute, .month , .second], from: date!)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        let notificationId = UUID().uuidString
+        let notificationRequest = UNNotificationRequest(identifier: notificationId, content: content, trigger: trigger)
+        
+        notificationCenter.add(notificationRequest) { (error) in}
+        
+        let tempTask = task
+        tempTask.taskNotificationId = notificationId
+        updateTask(oldTask: task, newTask: tempTask)
+        
+    }
+    
+    func removeRegisteredNotification(forTask task: Task) {
+        if task.taskNotificationId.count != 0 {
+            UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
+              for request in requests {
+                if request.identifier == task.taskNotificationId{
+                  UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [task.taskNotificationId])
+                }
+              }
+            }
+        }
     }
 }
 
