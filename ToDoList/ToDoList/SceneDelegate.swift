@@ -19,10 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         
         let tasksStore = TasksStore()
-        
-        //Accessing the items view controller and set its item store
-//        let itemsController = window!.rootViewController as! ItemsViewController
-        
         let navController = window!.rootViewController as! UINavigationController
         let tasksController = navController.topViewController as! TasksViewController
         tasksController.tasksStore = tasksStore

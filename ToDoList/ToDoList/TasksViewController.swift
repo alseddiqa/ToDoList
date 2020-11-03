@@ -15,7 +15,7 @@ class TasksViewController: UITableViewController {
     var tasksStore: TasksStore!
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewWillAppear(false)
         tableView.reloadData()
     }
     
@@ -73,11 +73,11 @@ class TasksViewController: UITableViewController {
             let task = tasksStore.tasks[indexPath.row]
             
             let alert = UIAlertController(title: "Are you sure about deletion?", message: "You better be sure :)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Yes, I'm aware of consequences", style: .default, handler: { action in
+            alert.addAction(UIAlertAction(title: "Yes, I'm aware of consequences", style: .destructive, handler: { action in
                 self.deleteSafely(task: task, indexPath: indexPath)
             }))
             
-            alert.addAction(UIAlertAction(title: "No, backup", style: .destructive, handler: nil))
+            alert.addAction(UIAlertAction(title: "No, backup", style: .default, handler: nil))
             
             self.present(alert, animated: true)
         }
@@ -169,6 +169,7 @@ class TasksViewController: UITableViewController {
         notification.image = UIImage(systemName: "bell.circle")
         return UISwipeActionsConfiguration(actions: [completionAction , notification])
         
+        
     }
     
     /// A helper function that returns a custom string based on the remianing time for the task
@@ -210,6 +211,10 @@ class TasksViewController: UITableViewController {
         return dueDate
     }
     
+    /// A helper function that deletes the task from the list after user is alerted
+    /// - Parameters:
+    ///   - task: the task to delete
+    ///   - indexPath: the location of the task to be deleted
     func deleteSafely(task: Task , indexPath: IndexPath) {
         tasksStore.removeTask(task)
         // Also remove that row from the table view with an animation
@@ -219,15 +224,19 @@ class TasksViewController: UITableViewController {
         
     }
     
+    /// A helper function that regissters notification for a specifc task to remind the user about
+    /// this function gets called when the user swipes right and selects the notification button
+    /// - Parameter task: the task to be notified about
     func registerTaskNotification(task: Task) {
         
         let notificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.requestAuthorization(options: [.alert, .sound])
+        notificationCenter.requestAuthorization(options: [.badge,.alert, .sound])
         { (granted, Error) in}
         
         let content = UNMutableNotificationContent()
-        content.title = "One Task is due now"
+        content.title = "You have a task to do now"
         content.body = task.taskTitle
+        content.badge = 1
         
         let date = task.taskDueDate
         let dateComponents = Calendar.current.dateComponents([.year, .hour , .minute, .month , .second], from: date!)
@@ -238,12 +247,16 @@ class TasksViewController: UITableViewController {
         
         notificationCenter.add(notificationRequest) { (error) in}
         
+        
+        
         let tempTask = task
         tempTask.taskNotificationId = notificationId
         updateTask(oldTask: task, newTask: tempTask)
         
     }
     
+    /// A function that removes the notification for a specific task in case it was deleted
+    /// - Parameter task: the task to remove the notification from
     func removeRegisteredNotification(forTask task: Task) {
         if task.taskNotificationId.count != 0 {
             UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
@@ -259,12 +272,18 @@ class TasksViewController: UITableViewController {
 
 extension TasksViewController: TaskDetailDelegate {
     
+    /// the delegate function that allows adding a task to the list of tasks
+    /// - Parameter task: the task to be added
     func addTask(task: Task) {
         tasksStore.addTaskToList(task: task)
 //        tableView.insertRows(at: [[0,tasksStore.tasks.count-1]], with: .automatic)
         tableView.reloadData()
     }
     
+    /// the delegate function that allows task update
+    /// - Parameters:
+    ///   - oldTask: the old task values
+    ///   - newTask: the new task values
     func updateTask(oldTask: Task, newTask: Task) {
         tasksStore.updateTaskDetail(oldTask: oldTask, newTask: newTask)
         tableView.reloadData()
