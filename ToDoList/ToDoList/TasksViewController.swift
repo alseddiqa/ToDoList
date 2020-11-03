@@ -11,18 +11,19 @@ import UIKit
 
 class TasksViewController: UITableViewController {
     
+    //Declaring the task store to hold tasks
     var tasksStore: TasksStore!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tasksStore.tasks.count == 0 {
             self.tableView.setEmptyMessage("No tasks added yet")
@@ -37,7 +38,7 @@ class TasksViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
-
+        
         let task = tasksStore.tasks[indexPath.row]
         cell.taskTitleLabel.text = task.taskTitle
         
@@ -63,10 +64,15 @@ class TasksViewController: UITableViewController {
         // If the table view is asking to commit a delete command...
         if editingStyle == .delete {
             let task = tasksStore.tasks[indexPath.row]
-            // Removing the task from the tasksList
-            tasksStore.removeTask(task)
-            // Also remove that row from the table view with an animation
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            let alert = UIAlertController(title: "Are you sure about deletion?", message: "You better be sure :)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes, I'm aware of consequences", style: .default, handler: { action in
+                self.deleteSafely(task: task, indexPath: indexPath)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "No, backup", style: .destructive, handler: nil))
+            
+            self.present(alert, animated: true)
         }
     }
     
@@ -77,6 +83,12 @@ class TasksViewController: UITableViewController {
         tasksStore.changeTaskPosition(from: sourceIndexPath.row, to: destinationIndexPath.row)
     }
     
+    /// A function that presentes task detail view controller depending on what user wants to do
+    /// if the user wants to create a new task, detail view will be prepared with empty fields
+    /// if the user would like to modify, will present detail view with current values of the tapped on task
+    /// - Parameters:
+    ///   - segue: segue identifier
+    ///   - sender: could be a tapped task to edit, or add new task on the top right corner
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         //Check segue type
@@ -84,7 +96,7 @@ class TasksViewController: UITableViewController {
         case "createTask":
             let taskDetailViewController
                 = segue.destination as! TaskDetailsViewController
-//            taskDetailViewController.tasksStore = self.tasksStore
+            //            taskDetailViewController.tasksStore = self.tasksStore
             taskDetailViewController.newTask = true
             taskDetailViewController.delegate = self
         case "showTask":
@@ -104,7 +116,7 @@ class TasksViewController: UITableViewController {
     }
     
     @IBAction func toggleEditing(_ sender: UIButton) {
-                
+        
         if isEditing {
             // Change text of button to inform user of state
             sender.setTitle("Edit", for: .normal)
@@ -168,20 +180,26 @@ class TasksViewController: UITableViewController {
         
         return dueDate
     }
+    
+    func deleteSafely(task: Task , indexPath: IndexPath) {
+        tasksStore.removeTask(task)
+        // Also remove that row from the table view with an animation
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
 }
 
 extension TasksViewController: TaskDetailDelegate {
     
     func addTask(task: Task) {
         tasksStore.addTaskToList(task: task)
-        tableView.insertRows(at: [[0,tasksStore.tasks.count-1]], with: .automatic)
-        //tableView.reloadData()
+//        tableView.insertRows(at: [[0,tasksStore.tasks.count-1]], with: .automatic)
+        tableView.reloadData()
     }
     
     func updateTask(oldTask: Task, newTask: Task) {
         tasksStore.updateTaskDetail(oldTask: oldTask, newTask: newTask)
-//        tableView.reloadData()
-        tableView.reloadRows(at: [[0,oldTask.indexOfTask]], with: .fade )
+        tableView.reloadData()
+//        tableView.reloadRows(at: [[0,oldTask.indexOfTask]], with: .fade )
     }
     
     

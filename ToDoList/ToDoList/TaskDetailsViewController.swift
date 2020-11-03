@@ -43,31 +43,11 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
         
         view.endEditing(true)
         
-        //Saving changes and edits to the item's information
+        //Saving changes and edits to the task's information
         if !newTask {
-            let oldTask = task
-            task.taskTitle = titleTextField.text ?? ""
-            task.taskAdditionalNotes = additionalNotesTextField.text ?? ""
-            if taskDatePicker.isEnabled == true {
-                task.taskDueDate = taskDatePicker.date
-            }
-            delegate.updateTask(oldTask: oldTask!, newTask: task)
+            makeChangesToTask()
         }
     }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//
-//        view.endEditing(true)
-//
-//        //Saving changes and edits to the item's information
-//        if !newTask {
-//            let oldTask = task
-//            task.taskTitle = titleTextField.text ?? ""
-//            task.taskAdditionalNotes = additionalNotesTextField.text ?? ""
-//            delegate.updateTask(oldTask: oldTask!, newTask: task)
-//        }
-//    }
     
     
     override func viewDidLoad() {
@@ -88,6 +68,9 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func submitTask(_ sender: UIBarButtonItem) {
+        if !validateInputFields() {
+            return
+        }
         let title = titleTextField.text!
         let notes = additionalNotesTextField.text!
         let task = Task(title: title, notes: notes)
@@ -101,6 +84,16 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
+    /// A function that handles the changes made to task information
+    private func makeChangesToTask() {
+        let oldTask = task
+        task.taskTitle = titleTextField.text ?? ""
+        task.taskAdditionalNotes = additionalNotesTextField.text ?? ""
+        if taskDatePicker.isEnabled == true {
+            task.taskDueDate = taskDatePicker.date
+        }
+        delegate.updateTask(oldTask: oldTask!, newTask: task)
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -112,4 +105,22 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
+    
+    /// A function that checks wether the user filled the title field
+    /// - Returns: false if user didn't type anything, true if user typed something
+    func validateInputFields() -> Bool {
+        let title = titleTextField.text!
+        
+        if title.count == 0 {
+            titleTextField.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            titleTextField.layer.borderWidth = 1.0
+            let alert = UIAlertController(title: "Task title is empty!", message: "Am I a joke to you?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Sorry, I'll fill them now", style: .destructive, handler: nil))
+            self.present(alert, animated: true)
+            
+            return false
+        }
+        
+        return true
+    }
 }
