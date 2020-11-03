@@ -37,7 +37,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="target" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pdx-qU-75s">
-                                            <rect key="frame" x="340" y="29.5" width="62" height="34"/>
+                                            <rect key="frame" x="367" y="29.5" width="35" height="34"/>
                                             <color key="tintColor" red="0.1764705882352941" green="0.38039215686274508" blue="0.52941176470588236" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="35" id="Lqy-aC-Aeh"/>
@@ -49,7 +49,6 @@
                                         <constraint firstItem="chA-D0-KpB" firstAttribute="top" secondItem="TCD-Sl-xGl" secondAttribute="bottom" constant="-13" id="4xn-9O-GOi"/>
                                         <constraint firstItem="TCD-Sl-xGl" firstAttribute="top" secondItem="Cqu-Kx-9Sg" secondAttribute="topMargin" id="56a-9a-3gP"/>
                                         <constraint firstAttribute="bottom" secondItem="chA-D0-KpB" secondAttribute="bottom" constant="3" id="7da-Cy-AVn"/>
-                                        <constraint firstItem="pdx-qU-75s" firstAttribute="leading" secondItem="Cqu-Kx-9Sg" secondAttribute="leading" constant="340" id="Efr-NR-Tgb"/>
                                         <constraint firstItem="chA-D0-KpB" firstAttribute="leading" secondItem="Cqu-Kx-9Sg" secondAttribute="leading" constant="32" id="Pf7-JY-gDE"/>
                                         <constraint firstAttribute="trailing" secondItem="pdx-qU-75s" secondAttribute="trailing" constant="12" id="RDF-in-SfR"/>
                                         <constraint firstItem="TCD-Sl-xGl" firstAttribute="trailing" secondItem="Cqu-Kx-9Sg" secondAttribute="trailingMargin" constant="40" id="V8A-H7-loY"/>
@@ -111,7 +110,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="QBr-1D-EL3">
-                                <rect key="frame" x="30" y="103" width="349" height="539"/>
+                                <rect key="frame" x="30" y="103" width="349" height="380.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="usC-cP-1Dx">
                                         <rect key="frame" x="0.0" y="0.0" width="340" height="21"/>
@@ -170,7 +169,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Y6-q7-EJC">
-                                        <rect key="frame" x="0.0" y="354" width="341" height="185"/>
+                                        <rect key="frame" x="0.0" y="354" width="341" height="26.5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="154" id="GyT-rO-W4f"/>
                                             <constraint firstAttribute="width" constant="341" id="ffN-1N-7jB"/>

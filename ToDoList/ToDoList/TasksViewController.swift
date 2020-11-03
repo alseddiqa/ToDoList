@@ -143,14 +143,14 @@ class TasksViewController: UITableViewController {
         let timeDiffrence = Calendar.current.dateComponents([.day,.hour , .minute, .second], from: taskDate, to: nowDate)
         let hours = timeDiffrence.hour! * -1
         let minutes = timeDiffrence.minute! * -1
-        //let seccond = timeDiffrence.second!
+        let seccond = taskDate.timeIntervalSince(nowDate)
         let days = timeDiffrence.day! * -1
         
         var dueDate = ""
-//        if hours < 0 && minutes < 0 && seccond < 0{
-//            dueDate = "Past due :("
-//        }
-         if minutes == 0 {
+        if seccond < 0{
+            dueDate = "Past due :("
+        }
+        else if minutes == 0 {
             dueDate = "Due NOW!"
         }
         else if hours == 0 && minutes > 0{
