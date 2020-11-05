@@ -1,0 +1,39 @@
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "45k-94-tBa"; */
+"45k-94-tBa.title" = "Item";
+
+/* Class = "UITextField"; placeholder = "...extra stuff to remember"; ObjectID = "4Y6-q7-EJC"; */
+"4Y6-q7-EJC.placeholder" = "معلومات اضافية";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "DTX-8J-R1r"; */
+"DTX-8J-R1r.normalTitle" = "تعديل";
+
+/* Class = "UILabel"; text = "Due Date"; ObjectID = "MND-hT-SNp"; */
+"MND-hT-SNp.text" = "تاريخ التسليم";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "TCD-Sl-xGl"; */
+"TCD-Sl-xGl.text" = "العنوان";
+
+/* Class = "UITextField"; placeholder = "ToDo goal"; ObjectID = "XqO-rw-v3C"; */
+"XqO-rw-v3C.placeholder" = "حدد هدفك";
+
+/* Class = "UILabel"; text = "Date"; ObjectID = "chA-D0-KpB"; */
+"chA-D0-KpB.text" = "Date";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "czq-TY-A64"; */
+"czq-TY-A64.title" = "Item";
+
+/* Class = "UINavigationItem"; title = "Tasks List"; ObjectID = "iBr-c5-jq1"; */
+"iBr-c5-jq1.title" = "مجموعة المهام";
+
+/* Class = "UILabel"; text = "Additional Notes"; ObjectID = "lgJ-J0-QaW"; */
+"lgJ-J0-QaW.text" = "معلومات اضافية";
+
+/* Class = "UISegmentedControl"; mFf-W1-PyW.segmentTitles[0] = "All"; ObjectID = "mFf-W1-PyW"; */
+"mFf-W1-PyW.segmentTitles[0]" = "الكل";
+
+/* Class = "UILabel"; text = "Created on: "; ObjectID = "trY-Qq-aF1"; */
+"trY-Qq-aF1.text" = "تاريخ الانشاء  ";
+
+/* Class = "UILabel"; text = "Task Title"; ObjectID = "usC-cP-1Dx"; */
+"usC-cP-1Dx.text" = "عنوان المهمة";

@@ -91,4 +91,25 @@ class TasksStore {
         }
     }
     
+    /// A helper function that filters the array based on the Famiiy type
+    /// - Returns: an array of the family tasks only
+    func getFamilyTasks() -> [Task] {
+        let familyTasks = tasks.filter {$0.taskType == "Family"}
+        return familyTasks
+    }
+    
+    /// A helper function that filters the array based on the work type
+    /// - Returns: an array of only  work tasks only
+    func getWorkTasks() -> [Task] {
+        let workTasks = tasks.filter {$0.taskType == "Work"}
+        return workTasks
+    }
+    
+    /// A helper function to organize the tasks array by due date
+    /// - Returns: an array of sorted tasks by their due data
+    func getSortedTasks() -> [Task] {
+        let sorted = tasks.sorted {$0.taskDueDate! < $1.taskDueDate!}
+        return sorted
+    }
+    
 }

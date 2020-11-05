@@ -18,7 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
+        // Creating task store instance to load data if any is availbale 
         let tasksStore = TasksStore()
+        
         let navController = window!.rootViewController as! UINavigationController
         let tasksController = navController.topViewController as! TasksViewController
         tasksController.tasksStore = tasksStore
