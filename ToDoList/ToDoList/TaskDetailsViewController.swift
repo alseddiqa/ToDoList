@@ -151,8 +151,11 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
         if title.count == 0 {
             titleTextField.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
             titleTextField.layer.borderWidth = 1.0
-            let alert = UIAlertController(title: "Task title is empty!", message: "Am I a joke to you?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Sorry, I'll fill them now", style: .destructive, handler: nil))
+            let title = NSLocalizedString("Task title is empty!", comment: "")
+            let message = NSLocalizedString("Am I a joke to you?", comment: "")
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let respone = NSLocalizedString("Sorry, I'll fill them now", comment: "")
+            alert.addAction(UIAlertAction(title: respone, style: .destructive, handler: nil))
             self.present(alert, animated: true)
             
             return false

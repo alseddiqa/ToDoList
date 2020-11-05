@@ -84,12 +84,17 @@ class TasksViewController: UITableViewController {
         if editingStyle == .delete {
             let task = tasksStore.tasks[indexPath.row]
             
-            let alert = UIAlertController(title: "Are you sure about deletion?", message: "You better be sure :)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Yes, I'm aware of consequences", style: .destructive, handler: { action in
+            let title = NSLocalizedString("Are you sure about deletion?", comment: "")
+            let message = NSLocalizedString("You better be sure :)", comment: "")
+            let acceptRespone = NSLocalizedString("Yes, I'm aware of consequences", comment: "")
+            let noResponse = NSLocalizedString("No, backup", comment: "")
+
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: acceptRespone, style: .destructive, handler: { action in
                 self.deleteSafely(task: task, indexPath: indexPath)
             }))
             
-            alert.addAction(UIAlertAction(title: "No, backup", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: noResponse, style: .default, handler: nil))
             
             self.present(alert, animated: true)
         }
@@ -161,7 +166,8 @@ class TasksViewController: UITableViewController {
             self.tasksStore.tasks.append(task)
             UIView.transition(with: tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
             success(true)
-            self.showToast(message: "Well Done!", seconds: 1.0)
+            let message = NSLocalizedString("Well Done!", comment: "")
+            self.showToast(message: message, seconds: 1.0)
         })
         completionAction.image = UIImage(systemName: "checkmark")
         completionAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
@@ -173,10 +179,12 @@ class TasksViewController: UITableViewController {
                 let temp = task
                 temp.taskNotificationId = ""
                 self.updateTask(oldTask: task, newTask: temp)
-                self.showToast(message: "Alert Removed", seconds: 1.0)
+                let message = NSLocalizedString("Alert Removed", comment: "")
+                self.showToast(message: message, seconds: 1.0)
             }else {
                 self.registerTaskNotification(task: task)
-                self.showToast(message: "You'll be alerted about it!", seconds: 1.0)
+                let message = NSLocalizedString("You'll be alerted about it!", comment: "")
+                self.showToast(message: message, seconds: 1.0)
             }
             UIView.transition(with: tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
             success(true)
@@ -194,7 +202,8 @@ class TasksViewController: UITableViewController {
     func getRemainingTime(task: Task) -> String{
         
         if task.isCompleted {
-            return "Task Achieved!"
+            let taskAchieved = NSLocalizedString("Task Achieved!", comment: "")
+            return taskAchieved
         }
         let taskDate = task.taskDueDate
         let nowDate = Date()
@@ -206,22 +215,30 @@ class TasksViewController: UITableViewController {
         
         var dueDate = ""
         if seccond < 0{
-            dueDate = "Past due :("
+            let pastDue = NSLocalizedString("Past due :(", comment: "")
+            dueDate = pastDue
         }
         else if minutes == 0 {
-            dueDate = "Due NOW!"
+            let dueNow = NSLocalizedString("Due NOW!", comment: "")
+            dueDate = dueNow
         }
         else if hours == 0 && minutes > 0{
-            dueDate = "Due in about \(minutes) minutes"
+            let dueInAbout = NSLocalizedString("Due in about ", comment: "")
+            let minutesString = NSLocalizedString("minutes", comment: "")
+            dueDate = dueInAbout + String(minutes) + minutesString
         }
         else if days < 1 {
-            dueDate = "Due in \(hours ) hours and \(minutes ) minutes"
+            let dueInAbout = NSLocalizedString("Due in ", comment: "")
+            let hoursString = NSLocalizedString(" hours and ", comment: "")
+            let minutesString = NSLocalizedString(" minutes", comment: "")
+            dueDate = dueInAbout + String(hours) + hoursString + String(minutes) + minutesString
         }
         
         else {
             let dateFormatterGet = DateFormatter()
             dateFormatterGet.dateFormat = "MMM d, h:mm a"
-            dueDate = "Due at " + dateFormatterGet.string(from: taskDate!)
+            let dueAt = NSLocalizedString("Due at ", comment: "")
+            dueDate = dueAt + dateFormatterGet.string(from: taskDate!)
         }
         
         return dueDate
@@ -297,7 +314,8 @@ class TasksViewController: UITableViewController {
                 all = true
             }
             tasksStore.tasks = tasksStore.getWorkTasks()
-            self.showToast(message: "Work Tasks", seconds: 1.0)
+            let message = NSLocalizedString("Work Tasks", comment: "")
+            self.showToast(message: message, seconds: 1.0)
         } else if sender.selectedSegmentIndex == 2 {
             if all == false {
                 tasksStore.tasks = allTasks
@@ -308,12 +326,14 @@ class TasksViewController: UITableViewController {
                 allTasks = tasksStore.tasks
             }
             tasksStore.tasks = tasksStore.getFamilyTasks()
-            self.showToast(message: "Family Tasks", seconds: 1.0)
+            let message = NSLocalizedString("Family Tasks", comment: "")
+            self.showToast(message: message, seconds: 1.0)
         }
         else {
             all = true
             tasksStore.tasks =  allTasks
-            self.showToast(message: "All Tasks", seconds: 1.0)
+            let message = NSLocalizedString("All Tasks", comment: "")
+            self.showToast(message: message, seconds: 1.0)
 
         }
         

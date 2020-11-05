@@ -9,3 +9,43 @@
 "Any" = "اي نوع";
 "Family" = "العائلة";
 "Work" =  "العمل";
+
+"Task title is empty!" = "عنوان المهمة فارغ";
+"Am I a joke to you?" = "تبي تضحك علينا؟";
+"Sorry, I'll fill them now" = "طيب ، بعبيه الان";
+
+
+"Are you sure about deletion?" = "هل أنت متأكد من حذف هذه المهمة؟";
+"You better be sure :)" = "من الأفضل أن تكون واثقا بقرارك";
+"Yes, I'm aware of consequences" = "أتمم الحذف ، سأقبل بالنتائج";
+"No, backup" = "كنسل خلاص";
+
+
+"Well Done!" = "مبروووك!";
+
+"Alert Removed" = "تم ازالة التنبيه";
+
+"You'll be alerted about it!" = "سيتم تنبيهك حينما يحين وقت المهمة";
+
+"Task Achieved!" = "تمت المهمة :)";
+
+"Past due :(" = "انتهى الوقت :(";
+
+
+"Due NOW!" = "سويها الحين!";
+
+"Due in about " = " سيحين الوقت خلال ";
+"minutes" = " دقيقة ";
+
+"Due in " = " سيحين الوقت خلال ";
+" hours and " = " ساعات و ";
+" minutes" = " دقائق ";
+
+"Due at " = " خلصها قبل ذا التاريخ ";
+
+
+"Work Tasks" = "مهام العمل";
+
+"Family Tasks" = "المهام العائلية";
+
+"All Tasks" = "جميع المهام";
