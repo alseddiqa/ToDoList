@@ -9,10 +9,19 @@ import UIKit
 
 class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     
+    //The task that gets passed if editing
     var task: Task!
+    
+    //Boolean variable indicating if we are editing or creating a a new task
     var newTask: Bool = true
+    
+    //delegate to edit the task store from this viewcontroller
     var delegate: TaskDetailDelegate!
+    
+    //Picker view options for the task type
     let typesList = [NSLocalizedString("Any", comment: ""),NSLocalizedString("Family", comment: ""),NSLocalizedString("Work", comment: "")]
+    
+    //the date formatter for
     let dateFormatterGet = DateFormatter()
     
     @IBOutlet var dateSwitch: UISwitch!
@@ -64,7 +73,6 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -82,7 +90,7 @@ class TaskDetailsViewController: UIViewController, UITextFieldDelegate {
     }
     
     /// function to disable the date picker if the user decided not to select a date
-    /// - Parameter sender: <#sender description#>
+    /// - Parameter sender: the task due date picker
     @IBAction func disableDatePicker(_ sender: UISwitch) {
         
         //Check the status of the UISwitch
