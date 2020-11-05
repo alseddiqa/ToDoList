@@ -8,7 +8,8 @@
 import UIKit
 
 class TaskCell: UITableViewCell {
-  
+    
+    //Defining outlets for the task cell
     @IBOutlet var taskTitleLabel: UILabel!
     @IBOutlet var taskDateLabel: UILabel!
     @IBOutlet var taskCompletionImage: UIImageView!

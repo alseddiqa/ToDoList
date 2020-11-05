@@ -13,10 +13,19 @@ class TasksViewController: UITableViewController {
     
     //Declaring the task store to hold tasks
     var tasksStore: TasksStore!
+    var allTasks = [Task]()
+    var all = true
+    
+    @IBOutlet var segmentView: UIView!
+    @IBOutlet var taskTypeSegmentController: UISegmentedControl!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         tableView.reloadData()
+        taskTypeSegmentController.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1))
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.06271465868, green: 0.1547748148, blue: 0.2115044296, alpha: 1)
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+
     }
     
     override func viewDidLoad() {
@@ -26,7 +35,7 @@ class TasksViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tasksStore.tasks.count == 0 {
-            self.tableView.setEmptyMessage("No tasks added yet")
+            self.tableView.setEmptyMessage("No tasks added in this section!")
             return 0
         }
         else {
@@ -35,9 +44,12 @@ class TasksViewController: UITableViewController {
         }
     }
     
+    //
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
+        
+        tasksStore.tasks = tasksStore.getSortedTasks()
         
         let task = tasksStore.tasks[indexPath.row]
         cell.taskTitleLabel.text = task.taskTitle
@@ -137,6 +149,7 @@ class TasksViewController: UITableViewController {
         }
     }
     
+    // A the leading cell action setter for completion and
     override func tableView(_ tableView: UITableView,
                             leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
@@ -148,6 +161,7 @@ class TasksViewController: UITableViewController {
             self.tasksStore.tasks.append(task)
             UIView.transition(with: tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
             success(true)
+            self.showToast(message: "Well Done!", seconds: 1.0)
         })
         completionAction.image = UIImage(systemName: "checkmark")
         completionAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
@@ -159,8 +173,10 @@ class TasksViewController: UITableViewController {
                 let temp = task
                 temp.taskNotificationId = ""
                 self.updateTask(oldTask: task, newTask: temp)
+                self.showToast(message: "Alert Removed", seconds: 1.0)
             }else {
                 self.registerTaskNotification(task: task)
+                self.showToast(message: "You'll be alerted about it!", seconds: 1.0)
             }
             UIView.transition(with: tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
             success(true)
@@ -236,7 +252,7 @@ class TasksViewController: UITableViewController {
         let content = UNMutableNotificationContent()
         content.title = "You have a task to do now"
         content.body = task.taskTitle
-        content.badge = 1
+//        content.badge = 1
         
         let date = task.taskDueDate
         let dateComponents = Calendar.current.dateComponents([.year, .hour , .minute, .month , .second], from: date!)
@@ -268,6 +284,43 @@ class TasksViewController: UITableViewController {
             }
         }
     }
+    
+    @IBAction func sortTasks(_ sender: UISegmentedControl) {
+       
+        if sender.selectedSegmentIndex == 1 {
+            if all == true {
+                all = false
+                allTasks = tasksStore.tasks
+            }
+            else {
+                tasksStore.tasks = allTasks
+                all = true
+            }
+            tasksStore.tasks = tasksStore.getWorkTasks()
+            self.showToast(message: "Work Tasks", seconds: 1.0)
+        } else if sender.selectedSegmentIndex == 2 {
+            if all == false {
+                tasksStore.tasks = allTasks
+                all = true
+            }
+            else {
+                all = false
+                allTasks = tasksStore.tasks
+            }
+            tasksStore.tasks = tasksStore.getFamilyTasks()
+            self.showToast(message: "Family Tasks", seconds: 1.0)
+        }
+        else {
+            all = true
+            tasksStore.tasks =  allTasks
+            self.showToast(message: "All Tasks", seconds: 1.0)
+
+        }
+        
+        
+        UIView.transition(with: tableView, duration: 1.0, options: .transitionCrossDissolve, animations: {self.tableView.reloadData()}, completion: nil)
+    }
+    
 }
 
 extension TasksViewController: TaskDetailDelegate {
@@ -295,10 +348,12 @@ extension TasksViewController: TaskDetailDelegate {
 
 extension UITableView {
     
+    /// A function that sets a message for the table view to display when there are no tasks
+    /// - Parameter message: the message to display
     func setEmptyMessage(_ message: String) {
         let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
         messageLabel.text = message
-        messageLabel.textColor = .black
+        messageLabel.textColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
         messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
@@ -308,8 +363,25 @@ extension UITableView {
         self.separatorStyle = .none
     }
     
+    /// A function that restores the table seprator
     func restore() {
         self.backgroundView = nil
         self.separatorStyle = .singleLine
     }
+}
+
+extension UISegmentedControl {
+
+    func setTitleColor(_ color: UIColor, state: UIControl.State = .normal) {
+        var attributes = self.titleTextAttributes(for: state) ?? [:]
+        attributes[.foregroundColor] = color
+        self.setTitleTextAttributes(attributes, for: state)
+    }
+    
+    func setTitleFont(_ font: UIFont, state: UIControl.State = .normal) {
+        var attributes = self.titleTextAttributes(for: state) ?? [:]
+        attributes[.font] = font
+        self.setTitleTextAttributes(attributes, for: state)
+    }
+
 }
