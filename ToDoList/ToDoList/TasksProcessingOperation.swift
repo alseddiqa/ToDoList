@@ -9,6 +9,7 @@ import Foundation
 
 class TasksProcessingOperation: Operation {
     
+    //Here's my try for the gold challenge
     var tasksURL: URL = {
         let baseURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let noteURL = baseURL.appendingPathComponent("tasks")
