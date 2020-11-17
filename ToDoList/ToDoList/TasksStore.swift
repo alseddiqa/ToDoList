@@ -11,6 +11,7 @@ class TasksStore {
     
     // List of tasks array
     var tasks = [Task]()
+    let backGroundQueue = OperationQueue()
     
     //Declaring the path to where tasks should be saved
     var tasksURL: URL = {
@@ -22,14 +23,22 @@ class TasksStore {
     
     /// A constructor fot the tasks store to get the tasks stored on disk when the application launches
     init() {
-        do {
-            let data = try Data(contentsOf: tasksURL)
-            let unarchiver = PropertyListDecoder()
-            let storedTasks = try unarchiver.decode([Task].self, from: data)
-            tasks = storedTasks
-        } catch {
-            print("Error fetching stored tasks: \(error)")
+        
+        let loadingOperation = BlockOperation(block: {
+            do {
+                let data = try Data(contentsOf: self.tasksURL)
+                let unarchiver = PropertyListDecoder()
+                let storedTasks = try unarchiver.decode([Task].self, from: data)
+                self.tasks = storedTasks
+                
+            } catch {
+                print("Error fetching stored tasks: \(error)")
+            }
         }
+        )
+        
+        backGroundQueue.addOperation(loadingOperation)
+        
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self,
                                        selector: #selector(saveChanges),
@@ -42,7 +51,7 @@ class TasksStore {
     func addTaskToList(task: Task){
         tasks.append(task)
     }
-
+    
     
     /// A function that removes a task from the list of tasks
     /// - Parameter task: task to remove from the list
@@ -81,14 +90,17 @@ class TasksStore {
     /// - Throws: an encoding error if tasks weren't saved properly to disk
     @objc func saveChanges() throws {
         print("Saving tasks to: \(tasksURL)")
-        do {
-            let encoder = PropertyListEncoder()
-            let data = try encoder.encode(tasks)
-            try data.write(to: tasksURL, options: [.atomic])
-            print("Saved all tasks to disk")
-        } catch let encodingError {
-            print("Error encoding allItems: \(encodingError)")
+        backGroundQueue.addOperation {
+            do {
+                let encoder = PropertyListEncoder()
+                let data = try encoder.encode(self.tasks)
+                try data.write(to: self.tasksURL, options: [.atomic])
+                print("Saved all tasks to disk")
+            } catch let encodingError {
+                print("Error encoding allItems: \(encodingError)")
+            }
         }
+        
     }
     
     /// A helper function that filters the array based on the Famiiy type

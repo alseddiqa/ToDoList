@@ -201,6 +201,8 @@ class TasksViewController: UITableViewController {
     /// - Returns: returns the due date string
     func getRemainingTime(task: Task) -> String{
         
+        //Check datecomponenet formatter
+        //Check UIAPPEARANCE
         if task.isCompleted {
             let taskAchieved = NSLocalizedString("Task Achieved!", comment: "")
             return taskAchieved
@@ -277,7 +279,6 @@ class TasksViewController: UITableViewController {
         
         let notificationId = UUID().uuidString
         let notificationRequest = UNNotificationRequest(identifier: notificationId, content: content, trigger: trigger)
-        
         notificationCenter.add(notificationRequest) { (error) in}
         
         

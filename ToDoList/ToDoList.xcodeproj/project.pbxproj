@@ -21,6 +21,7 @@
 		B838175C2550322300267624 /* TasksStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B838175B2550322300267624 /* TasksStore.swift */; };
 		B838176B2550919900267624 /* TaskDetailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B838176A2550919800267624 /* TaskDetailDelegate.swift */; };
 		B83817902554799300267624 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B83817922554799300267624 /* Localizable.strings */; };
+		B888C19F2562B51800A09547 /* TasksProcessingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B888C19E2562B51800A09547 /* TasksProcessingOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		B8381787255473CD00267624 /* ar-SA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-SA"; path = "ar-SA.lproj/Main.strings"; sourceTree = "<group>"; };
 		B83817912554799300267624 /* ar-SA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-SA"; path = "ar-SA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B838179625547A5D00267624 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B888C19E2562B51800A09547 /* TasksProcessingOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksProcessingOperation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				B838171A2550073400267624 /* Main.storyboard */,
 				B838175625502FD500267624 /* Task.swift */,
 				B838175B2550322300267624 /* TasksStore.swift */,
+				B888C19E2562B51800A09547 /* TasksProcessingOperation.swift */,
 				B838175125500C3700267624 /* TaskCell.swift */,
 				B838174C25500A7800267624 /* TaskDetailsViewController.swift */,
 				B83817922554799300267624 /* Localizable.strings */,
@@ -288,6 +291,7 @@
 				B838175725502FD500267624 /* Task.swift in Sources */,
 				B838175C2550322300267624 /* TasksStore.swift in Sources */,
 				B83817172550073400267624 /* SceneDelegate.swift in Sources */,
+				B888C19F2562B51800A09547 /* TasksProcessingOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -287,7 +287,7 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="taskDueDateColor">
-            <color red="0.23921568627450979" green="0.074509803921568626" blue="0.047058823529411764" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.23899999260902405" green="0.075000002980232239" blue="0.046999998390674591" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>
